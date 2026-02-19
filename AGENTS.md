@@ -32,11 +32,63 @@ Theme colors use semantic CSS custom properties defined in `:root` (light) and `
 
 **Path alias** — `@/*` maps to `./src/*`.
 
+## Case study media
+
+Case studies support images (png/jpg), videos (mp4), and multi-item carousels with fade transitions.
+
+**Data model** — `src/lib/case-studies.ts` exports a `MediaItem` interface (`{ src: string; type: "image" | "video" }`). Each `CaseStudyData` has a `media: MediaItem[]` field. Type is auto-detected from file extension. The parser also supports the legacy `image: string` frontmatter field as a fallback.
+
+**Frontmatter format** — Case study markdown files use a `media:` YAML array:
+```yaml
+media:
+  - /images/case-studies/global-navigation.mp4
+```
+
+**Components:**
+- `CaseStudyMedia.tsx` (client component) — Renders one of three modes:
+  - **Single video** → `<video>` with hover-to-play (`mouseenter` plays, `mouseleave` pauses + resets to start). Attributes: `muted`, `playsInline`, `loop`, `preload="metadata"`.
+  - **Single image** → plain `<img>`.
+  - **Multiple items** → Fade carousel (0.6s opacity transition, 4s auto-advance) with clickable dot indicators.
+- `CaseStudy.tsx` — Uses `<CaseStudyMedia>` when `study.media.length > 0`, otherwise renders a placeholder div.
+
+**CSS** — `.case-study--media` has `padding: var(--margin-small)` which governs media inset. Background uses `--case-study-media-bg` variable (light: `#c9f3fe`, dark: `#1a3a4a`). Carousel styles use `data-active` attributes for fade state.
+
+**Assets go in** `public/images/case-studies/`. Served at `/images/case-studies/<filename>`.
+
+### Current media assignments
+
+| Case study slug | Media | Status |
+|---|---|---|
+| `github-navigation` | `global-navigation.mp4` | ⚠️ Needs re-encode (source is ~15MB) |
+| `github-home-dashboard` | `home-dashboard-video.mp4` | ⚠️ Needs re-encode (source is ~116MB) |
+| `primer-design-system` | `primer-1.png`, `primer-2.png` (carousel) | ✅ Ready |
+| All other case studies | No media (placeholder shown) | — |
+
+### TODO: Re-encode mp4 videos before committing
+
+The raw mp4s are too large for GitHub Pages. They exist in the repo-root `images/` folder but have **not been committed** — only the copies in `public/images/case-studies/` are referenced. Before committing, re-encode with ffmpeg:
+
+```bash
+ffmpeg -i images/global-navigation.mp4 \
+  -vcodec libx264 -crf 28 -preset slow \
+  -vf "scale=1200:-2" -an -movflags +faststart \
+  public/images/case-studies/global-navigation.mp4
+
+ffmpeg -i images/home-dashboard-video.mp4 \
+  -vcodec libx264 -crf 28 -preset slow \
+  -vf "scale=1200:-2" -an -movflags +faststart \
+  public/images/case-studies/home-dashboard-video.mp4
+```
+
+Key flags: `-crf 28` (quality, lower = bigger), `-scale=1200:-2` (2× retina for ~600px render), `-an` (strip audio), `-movflags +faststart` (streaming-friendly). Target **1–5MB** per video. Adjust `-crf` (23–32 range) if quality is too low or file is still too large.
+
+After re-encoding, the frontmatter paths already point to the correct locations — no code changes needed.
+
 ## Key conventions
 
 - All color values used by elements should reference `--color-*` or `--cta-*` semantic variables, never raw hex values. Raw palette tokens (`--blue`, `--orange`, etc.) are only used inside variable definitions.
 - The `.dark` class is applied to the `<html>` element. The CSS selector is `:root.dark`.
-- Only one client component exists (`ThemeToggle.tsx`). Everything else is a server component.
+- Two client components exist: `ThemeToggle.tsx` (theme switching) and `CaseStudyMedia.tsx` (video hover-play and carousel). Everything else is a server component.
 
 ## Deployment
 

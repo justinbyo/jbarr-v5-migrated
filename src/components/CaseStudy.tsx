@@ -1,4 +1,5 @@
 import type { CaseStudyData } from "@/lib/case-studies";
+import CaseStudyMedia from "@/components/CaseStudyMedia";
 
 interface CaseStudyProps {
   study: CaseStudyData;
@@ -18,8 +19,8 @@ export default function CaseStudy({ study }: CaseStudyProps) {
         </ul>
       </div>
       <div className="case-study--media">
-        {study.image ? (
-          <img src={study.image} alt={study.title} />
+        {study.media.length > 0 ? (
+          <CaseStudyMedia media={study.media} alt={study.title} />
         ) : (
           <div className="case-study--placeholder" />
         )}

@@ -3,7 +3,8 @@ title: "Fixing GitHub's \"Useless\" Homepage for 2M Daily Users"
 employer: "GitHub (Microsoft)"
 order: 7
 visible: true
-image: ""
+media:
+  - /images/case-studies/home-dashboard-video.mp4
 ---
 
 GitHub's home dashboard had a reputation problem—2M daily users called it "useless" and relied on browser bookmarks instead. I redesigned it with separate "My Work" and "Feed" tabs, added Copilot agent orchestration, and shipped iteratively (5% preview → community feedback → 100% at GitHub Universe).

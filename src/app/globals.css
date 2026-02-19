@@ -126,7 +126,7 @@ table {
   --cta-linkedin-hover-border: var(--color-primary);
   --cta-linkedin-hover-text: var(--color-primary);
   --case-study-bg: var(--color-bg);
-  --case-study-media-bg: #1a3a4a;
+  --case-study-media-bg: var(--white);
   --case-study-shadow:var(--pink);
 }
 
@@ -235,7 +235,7 @@ section.case-studies {
 
 .case-study {
   background-color: var(--case-study-bg);
-  border: var(--border-x-small) solid var(--color-text-muted);
+  border: var(--border-x-small) solid var(--white);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;

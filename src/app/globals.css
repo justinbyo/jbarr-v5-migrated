@@ -6,6 +6,7 @@
   --font-mono: initial;
 }
 
+@layer base {
 /* Reset */
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -100,6 +101,8 @@ table {
   --cta-linkedin-text: var(--black);
   --cta-linkedin-hover-border: var(--color-primary);
   --cta-linkedin-hover-text: var(--color-primary);
+  --case-study-bg: #ffffff;
+  --case-study-shadow: rgba(0, 0, 0, 0.3);
 }
 
 :root.dark {
@@ -121,6 +124,8 @@ table {
   --cta-linkedin-text: var(--white);
   --cta-linkedin-hover-border: var(--color-primary);
   --cta-linkedin-hover-text: var(--color-primary);
+  --case-study-bg: var(--color-bg);
+  --case-study-shadow:var(--pink);
 }
 
 body {
@@ -219,6 +224,108 @@ section.cta .cta--linkedin:hover {
   color: var(--cta-linkedin-hover-text);
 }
 
+/* Case Studies */
+section.case-studies {
+  margin: 0 auto;
+  max-width: none;
+  padding: var(--margin-medium);
+}
+
+.case-study {
+  background-color: var(--case-study-bg);
+  border: var(--border-x-small) solid var(--color-text-muted);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: var(--margin-medium);
+  position:relative;
+}
+
+.case-study::after{
+  position: absolute;
+  top:var(--border-big);
+  left:var(--border-big);
+  width:100%;
+  height:100%;
+  content:"";
+  background-color: var(--case-study-shadow);
+  z-index: -1; /* 4. Moves the pseudo-element behind the parent's content and background */
+}
+
+.case-study--content {
+  padding: var(--margin-small);
+}
+
+.case-study--content h3 {
+  font-family: "Lato";
+  font-weight: 900;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.case-study--employer {
+  color: var(--color-text-muted);
+  font-family: "Lato";
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.case-study--content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.case-study--content ul {
+  list-style: disc;
+  padding-left: 1em;
+}
+
+.case-study--content li {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.case-study--media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c9f3fe;
+  min-height: 200px;
+}
+
+.case-study--media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 0;
+}
+
+.case-study--placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+}
+
+/* Footnotes */
+section.footnotes {
+  padding: var(--margin-medium) 20px;
+}
+
+section.footnotes p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+section.footnotes strong {
+  font-weight: 700;
+}
+
 /* Footer */
 footer {
   padding: 0;
@@ -258,98 +365,6 @@ section.footer a {
 
 section.footer a:hover {
   color: var(--color-primary);
-}
-
-/* Case Studies */
-section.case-studies {
-  margin: 0 auto;
-  max-width: 800px;
-  padding: var(--margin-medium) 20px;
-}
-
-.case-study {
-  border: var(--border-x-small) solid var(--color-text-muted);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  margin-bottom: var(--margin-medium);
-}
-
-.case-study--content {
-  padding: var(--margin-small);
-}
-
-.case-study--content h3 {
-  font-family: "Lato";
-  font-weight: 900;
-  font-size: 1.25rem;
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
-}
-
-.case-study--employer {
-  color: var(--color-text-muted);
-  font-family: "Lato";
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.case-study--content p {
-  font-size: 1rem;
-  line-height: 1.65;
-  margin-bottom: 1rem;
-}
-
-.case-study--content ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-}
-
-.case-study--content li {
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.65;
-  margin-bottom: 0.25rem;
-}
-
-.case-study--media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-text-muted);
-  min-height: 200px;
-}
-
-.case-study--media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  margin-bottom: 0;
-}
-
-.case-study--placeholder {
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-}
-
-/* Footnotes */
-section.footnotes {
-  padding: var(--margin-medium) 20px;
-}
-
-section.footnotes p {
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-section.footnotes strong {
-  font-weight: 700;
 }
 
 section.footnotes p a {
@@ -466,6 +481,10 @@ sup a {
     margin-bottom: var(--margin-small);
   }
 
+  section.case-studies {
+    padding: var(--margin-medium) 20px;
+  }
+
   .case-study {
     grid-template-columns: 1fr;
   }
@@ -493,3 +512,5 @@ sup a {
     margin-bottom: var(--margin-small);
   }
 }
+
+} /* end @layer base */

@@ -65,6 +65,7 @@ table {
 :root {
   /* Palette tokens */
   --black: #24292e;
+  --white: #f9f9f9;
   --blue: #7fadc6;
   --green: #38726C;
   --light-green: #72BDA3;
@@ -82,40 +83,44 @@ table {
   --margin-big: 90px;
 
   /* Light mode colors — edit these */
-  --color-bg: #f9f9f9;
+  --color-primary:var(--orange);
+  --color-secondary:var(--blue);
+  --color-bg: var(--white);
   --color-text: var(--black);
   --color-text-muted: #555555;
   --color-link: var(--black);
-  --color-link-hover: var(--orange);
-  --cta-email-bg: var(--orange);
+  --color-link-hover: var(--color-primary);
+  --cta-email-bg: var(--color-primary);
   --cta-email-border: var(--black);
   --cta-email-text: var(--black);
-  --cta-email-hover-bg: var(--orange);
-  --cta-email-hover-border: var(--orange);
+  --cta-email-hover-bg: var(--color-primary);
+  --cta-email-hover-border: var(--color-primary);
   --cta-email-hover-text: inherit;
   --cta-linkedin-border: var(--black);
   --cta-linkedin-text: var(--black);
-  --cta-linkedin-hover-border: var(--orange);
-  --cta-linkedin-hover-text: var(--orange);
+  --cta-linkedin-hover-border: var(--color-primary);
+  --cta-linkedin-hover-text: var(--color-primary);
 }
 
 :root.dark {
   /* Dark mode colors — edit these */
+  --color-primary:var(--orange);
+  --color-secondary:var(--blue);
   --color-bg: #1b1f23;
-  --color-text: #f9f9f9;
+  --color-text: var(--white);
   --color-text-muted: #b6b6b6;
-  --color-link: #f9f9f9;
-  --color-link-hover: var(--orange);
-  --cta-email-bg: var(--orange);
-  --cta-email-border: var(--orange);
+  --color-link: var(--white);
+  --color-link-hover: var(--color-primary);
+  --cta-email-bg: var(--color-primary);
+  --cta-email-border: var(--color-primary);
   --cta-email-text: var(--black);
-  --cta-email-hover-bg: #f9f9f9;
-  --cta-email-hover-border: #f9f9f9;
+  --cta-email-hover-bg: var(--white);
+  --cta-email-hover-border: var(--white);
   --cta-email-hover-text: var(--black);
-  --cta-linkedin-border: #f9f9f9;
-  --cta-linkedin-text: #f9f9f9;
-  --cta-linkedin-hover-border: var(--orange);
-  --cta-linkedin-hover-text: var(--orange);
+  --cta-linkedin-border: var(--white);
+  --cta-linkedin-text: var(--white);
+  --cta-linkedin-hover-border: var(--color-primary);
+  --cta-linkedin-hover-text: var(--color-primary);
 }
 
 body {
@@ -130,7 +135,7 @@ section {
 }
 
 header {
-  border-bottom: var(--border-x-small) solid var(--black);
+  border-bottom: var(--border-x-small) solid var(--color-text-muted);
 }
 
 section.navigation {
@@ -142,8 +147,7 @@ section.navigation {
 
 /* Theme toggle button */
 .theme-toggle {
-  background-color: var(--blue);
-  border: none;
+  border: var(--border-x-small) solid var(--color-text-muted);
   border-radius: 50%;
   cursor: pointer;
   font-size: 1.2rem;
@@ -156,7 +160,8 @@ section.navigation {
 }
 
 .theme-toggle:hover {
-  background-color: var(--orange);
+  border-color: var(--color-primary);
+  color:var(--color-primary)
 }
 
 section.hero {
@@ -220,7 +225,7 @@ footer {
 }
 
 section.footer {
-  border: var(--border-small) dashed var(--blue);
+  border: var(--border-small) dashed var(--color-secondary);
   padding-top: var(--margin-small);
   padding-bottom: var(--margin-small);
 }
@@ -243,16 +248,16 @@ section.footer li {
 }
 
 section.footer li span {
-  color: var(--orange);
+  color: var(--color-primary);
 }
 
 section.footer a {
-  border-bottom: 2px solid var(--orange);
+  border-bottom: 2px solid var(--color-primary);
   font-weight: 700;
 }
 
 section.footer a:hover {
-  color: var(--orange);
+  color: var(--color-primary);
 }
 
 /* Footnotes */
@@ -278,7 +283,7 @@ section.footnotes p a {
 }
 
 section.footnotes p a:hover {
-  color: var(--orange);
+  color: var(--color-primary);
 }
 
 /* Typography */
@@ -322,7 +327,7 @@ p.subtitle {
 }
 
 a {
-  border-bottom: var(--border-small) solid var(--orange);
+  border-bottom: var(--border-small) solid var(--color-primary);
   color: var(--color-link);
   font-weight: 700;
   text-decoration: none;
@@ -346,12 +351,12 @@ sup {
 
 sup:before {
   content: "[";
-  color: var(--orange);
+  color: var(--color-primary);
 }
 
 sup:after {
   content: "]";
-  color: var(--orange);
+  color: var(--color-primary);
 }
 
 sup a {

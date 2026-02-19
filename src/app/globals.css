@@ -64,6 +64,7 @@ table {
 /* Theme */
 :root {
   /* Palette tokens */
+  --black: #24292e;
   --blue: #7fadc6;
   --green: #38726C;
   --light-green: #72BDA3;
@@ -73,6 +74,7 @@ table {
   --dark-orange: #c94f00;
 
   /* Spacing & borders */
+  --border-x-small: 1px;
   --border-small: 3px;
   --border-big: 6px;
   --margin-small: 30px;
@@ -81,18 +83,18 @@ table {
 
   /* Light mode colors — edit these */
   --color-bg: #f9f9f9;
-  --color-text: #24292e;
+  --color-text: var(--black);
   --color-text-muted: #555555;
-  --color-link: #24292e;
+  --color-link: var(--black);
   --color-link-hover: var(--orange);
   --cta-email-bg: var(--orange);
-  --cta-email-border: #24292e;
-  --cta-email-text: #24292e;
+  --cta-email-border: var(--black);
+  --cta-email-text: var(--black);
   --cta-email-hover-bg: var(--orange);
   --cta-email-hover-border: var(--orange);
   --cta-email-hover-text: inherit;
-  --cta-linkedin-border: #24292e;
-  --cta-linkedin-text: #24292e;
+  --cta-linkedin-border: var(--black);
+  --cta-linkedin-text: var(--black);
   --cta-linkedin-hover-border: var(--orange);
   --cta-linkedin-hover-text: var(--orange);
 }
@@ -106,10 +108,10 @@ table {
   --color-link-hover: var(--orange);
   --cta-email-bg: var(--orange);
   --cta-email-border: var(--orange);
-  --cta-email-text: #24292e;
+  --cta-email-text: var(--black);
   --cta-email-hover-bg: #f9f9f9;
   --cta-email-hover-border: #f9f9f9;
-  --cta-email-hover-text: #24292e;
+  --cta-email-hover-text: var(--black);
   --cta-linkedin-border: #f9f9f9;
   --cta-linkedin-text: #f9f9f9;
   --cta-linkedin-hover-border: var(--orange);
@@ -128,7 +130,7 @@ section {
 }
 
 header {
-  border-bottom: var(--border-big) solid var(--blue);
+  border-bottom: var(--border-x-small) solid var(--black);
 }
 
 section.navigation {
@@ -316,7 +318,6 @@ p.strong {
 p.subtitle {
   font-family: "Noto Serif";
   font-size: 1.5rem;
-  line-height: 1;
   margin-bottom: var(--margin-small);
 }
 

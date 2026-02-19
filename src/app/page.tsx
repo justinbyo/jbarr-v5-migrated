@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import CTA from "@/components/CTA";
+import CaseStudies from "@/components/CaseStudies";
 import Footnotes from "@/components/Footnotes";
 import Footer from "@/components/Footer";
 
@@ -14,7 +15,8 @@ export default function Home() {
         <About />
         <CTA />
       </main>
-      <Footer />
+      <CaseStudies />
+      {/* <Footer /> */}
       <Footnotes />
     </>
   );

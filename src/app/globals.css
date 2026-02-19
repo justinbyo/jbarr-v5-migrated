@@ -101,6 +101,7 @@ table {
   --cta-linkedin-text: var(--black);
   --cta-linkedin-hover-border: var(--color-primary);
   --cta-linkedin-hover-text: var(--color-primary);
+  --case-study-border: var(--color-text-muted);
   --case-study-bg: #ffffff;
   --case-study-media-bg: #c9f3fe;
   --case-study-shadow: rgba(0, 0, 0, 0.3);
@@ -125,6 +126,7 @@ table {
   --cta-linkedin-text: var(--white);
   --cta-linkedin-hover-border: var(--color-primary);
   --cta-linkedin-hover-text: var(--color-primary);
+  --case-study-border: var(--white);
   --case-study-bg: var(--color-bg);
   --case-study-media-bg: var(--white);
   --case-study-shadow:var(--pink);
@@ -235,7 +237,7 @@ section.case-studies {
 
 .case-study {
   background-color: var(--case-study-bg);
-  border: var(--border-x-small) solid var(--white);
+  border: var(--border-x-small) solid var(--case-study-border);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
@@ -355,7 +357,7 @@ section.case-studies {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: var(--border-x-small) solid var(--color-text-muted);
+  border: var(--border-x-small) solid var(--black);
   background: transparent;
   cursor: pointer;
   padding: 0;
@@ -363,8 +365,8 @@ section.case-studies {
 }
 
 .case-study--carousel-dot[data-active="true"] {
-  background-color: var(--color-text);
-  border-color: var(--color-text);
+  background-color: var(--black);
+  border-color: var(--black);
 }
 
 .case-study--carousel-dot:hover {

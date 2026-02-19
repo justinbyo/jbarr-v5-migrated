@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function About() {
   return (
     <>
-      <section className="image">
+      {/* <section className="image">
         <Image
           src="/images/whiteboard.png"
           alt="Illustration of a whiteboard featuring a diagram of arrows, meant to evoke a coach's football play, along with two whiteboard pens and an eraser. By me."
@@ -11,7 +11,7 @@ export default function About() {
           height={600}
           style={{ width: "100%", height: "auto" }}
         />
-      </section>
+      </section> */}
 
       <section className="about">
         <p>

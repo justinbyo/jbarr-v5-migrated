@@ -22,7 +22,7 @@ No test framework is configured.
 
 **Styling** — Uses CSS custom properties in `src/app/globals.css` (not Tailwind utility classes). Includes a Meyer reset, semantic color variables for light/dark themes, and responsive breakpoints at 767px and 580px.
 
-**Dark mode** — Two-part system: an inline script in `layout.tsx` applies `.dark-theme` class before hydration to prevent flash; `ThemeToggle.tsx` (the only client component) manages toggle state with localStorage. Theme colors are swapped via CSS variables on `.dark-theme`.
+**Dark mode** — Two-part system: an inline script in `layout.tsx` applies `.dark` class before hydration to prevent flash; `ThemeToggle.tsx` (the only client component) manages toggle state with localStorage. Theme colors are swapped via semantic CSS custom properties on `.dark`.
 
 **Fonts** — Noto Serif (body) and Lato (headings/UI) loaded via `next/font/google` in `layout.tsx`, exposed as CSS variables `--font-noto-serif` and `--font-lato`.
 

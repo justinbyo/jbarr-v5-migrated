@@ -23,7 +23,7 @@ export default function RootLayout({
                 const stored = localStorage.getItem('theme');
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (stored === 'dark' || (!stored && prefersDark)) {
-                  document.documentElement.classList.add('dark-theme');
+                  document.documentElement.classList.add('dark');
                 }
               })();
             `,

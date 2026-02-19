@@ -63,41 +63,62 @@ table {
 
 /* Theme */
 :root {
+  /* Palette tokens */
   --blue: #7fadc6;
+  --green: #38726C;
+  --light-green: #72BDA3;
+  --pink: #F25757;
   --light-orange: #ffd79c;
   --orange: #ff9900;
   --dark-orange: #c94f00;
+
+  /* Spacing & borders */
   --border-small: 3px;
   --border-big: 6px;
   --margin-small: 30px;
   --margin-medium: 60px;
   --margin-big: 90px;
-  --light-grey: #f9f9f9;
-  --light-grey-ish: #555555;
-  --dark-grey: #24292e;
+
+  /* Light mode colors — edit these */
+  --color-bg: #f9f9f9;
+  --color-text: #24292e;
+  --color-text-muted: #555555;
+  --color-link: #24292e;
+  --color-link-hover: var(--orange);
+  --cta-email-bg: var(--orange);
+  --cta-email-border: #24292e;
+  --cta-email-text: #24292e;
+  --cta-email-hover-bg: var(--orange);
+  --cta-email-hover-border: var(--orange);
+  --cta-email-hover-text: inherit;
+  --cta-linkedin-border: #24292e;
+  --cta-linkedin-text: #24292e;
+  --cta-linkedin-hover-border: var(--orange);
+  --cta-linkedin-hover-text: var(--orange);
+}
+
+:root.dark {
+  /* Dark mode colors — edit these */
+  --color-bg: #1b1f23;
+  --color-text: #f9f9f9;
+  --color-text-muted: #b6b6b6;
+  --color-link: #f9f9f9;
+  --color-link-hover: var(--orange);
+  --cta-email-bg: var(--orange);
+  --cta-email-border: var(--orange);
+  --cta-email-text: #24292e;
+  --cta-email-hover-bg: #f9f9f9;
+  --cta-email-hover-border: #f9f9f9;
+  --cta-email-hover-text: #24292e;
+  --cta-linkedin-border: #f9f9f9;
+  --cta-linkedin-text: #f9f9f9;
+  --cta-linkedin-hover-border: var(--orange);
+  --cta-linkedin-hover-text: var(--orange);
 }
 
 body {
-  background-color: var(--light-grey);
-  color: var(--dark-grey);
-}
-
-/* Dark theme styles when .dark-theme class is applied to root */
-:root.dark-theme {
-  --light-grey-ish: #b6b6b6;
-}
-
-:root.dark-theme body {
-  background-color: #1b1f23;
-  color: var(--light-grey);
-}
-
-:root.dark-theme a {
-  color: var(--light-grey);
-}
-
-:root.dark-theme a:hover {
-  color: var(--orange);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 section {
@@ -170,24 +191,25 @@ section.cta a {
 }
 
 section.cta a.cta--email {
-  background-color: var(--orange);
-  border-color: var(--dark-grey);
-  color: var(--dark-grey);
+  background-color: var(--cta-email-bg);
+  border-color: var(--cta-email-border);
+  color: var(--cta-email-text);
 }
 
 section.cta a.cta--email:hover {
-  background-color: var(--orange);
-  border-color: var(--orange);
+  background-color: var(--cta-email-hover-bg);
+  border-color: var(--cta-email-hover-border);
+  color: var(--cta-email-hover-text);
 }
 
 section.cta .cta--linkedin {
-  border-color: var(--dark-grey);
-  color: var(--dark-grey);
+  border-color: var(--cta-linkedin-border);
+  color: var(--cta-linkedin-text);
 }
 
 section.cta .cta--linkedin:hover {
-  border-color: var(--orange);
-  color: var(--orange);
+  border-color: var(--cta-linkedin-hover-border);
+  color: var(--cta-linkedin-hover-text);
 }
 
 /* Footer */
@@ -237,7 +259,7 @@ section.footnotes {
 }
 
 section.footnotes p {
-  color: var(--light-grey-ish);
+  color: var(--color-text-muted);
   font-size: 0.9rem;
   line-height: 1.6;
   margin-bottom: 1rem;
@@ -249,7 +271,7 @@ section.footnotes strong {
 
 section.footnotes p a {
   border-bottom-width: 1px;
-  color: var(--light-grey-ish);
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -265,7 +287,7 @@ h1 {
 }
 
 h1 span {
-  color: var(--light-grey-ish);
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -300,13 +322,13 @@ p.subtitle {
 
 a {
   border-bottom: var(--border-small) solid var(--orange);
-  color: var(--dark-grey);
+  color: var(--color-link);
   font-weight: 700;
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--orange);
+  color: var(--color-link-hover);
 }
 
 li {
@@ -333,31 +355,6 @@ sup:after {
 
 sup a {
   border-bottom: 0;
-}
-
-/* Dark theme overrides */
-:root.dark-theme sup a:hover {
-  color: var(--orange);
-}
-
-:root.dark-theme section.cta a.cta--email {
-  border-color: var(--orange);
-}
-
-:root.dark-theme section.cta a.cta--email:hover {
-  background-color: var(--light-grey);
-  border-color: var(--light-grey);
-  color: var(--dark-grey);
-}
-
-:root.dark-theme section.cta a.cta--linkedin {
-  border-color: var(--light-grey);
-  color: var(--light-grey);
-}
-
-:root.dark-theme section.cta a.cta--linkedin:hover {
-  border-color: var(--orange);
-  color: var(--orange);
 }
 
 /* Responsive - Mobile */

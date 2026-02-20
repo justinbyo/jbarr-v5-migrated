@@ -5,6 +5,7 @@ import matter from "gray-matter";
 export interface MediaItem {
   src: string;
   type: "image" | "video";
+  display?: "scroll";
 }
 
 export interface CaseStudyData {
@@ -23,19 +24,32 @@ const CASE_STUDIES_DIR = path.join(process.cwd(), "content", "case-studies");
 const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov"];
 
 function parseMedia(raw: unknown): MediaItem[] {
-  // Support both a single string and an array of strings
-  const sources: string[] = [];
+  const items: Array<{ src: string; display?: string }> = [];
+
   if (Array.isArray(raw)) {
-    sources.push(...raw.filter((s): s is string => typeof s === "string" && s !== ""));
+    for (const entry of raw) {
+      if (typeof entry === "string" && entry !== "") {
+        items.push({ src: entry });
+      } else if (
+        typeof entry === "object" &&
+        entry !== null &&
+        typeof (entry as Record<string, unknown>).src === "string" &&
+        (entry as Record<string, unknown>).src !== ""
+      ) {
+        const obj = entry as Record<string, unknown>;
+        items.push({ src: obj.src as string, display: obj.display as string | undefined });
+      }
+    }
   } else if (typeof raw === "string" && raw !== "") {
-    sources.push(raw);
+    items.push({ src: raw });
   }
 
-  return sources.map((src) => {
+  return items.map(({ src, display }) => {
     const ext = path.extname(src).toLowerCase();
     return {
       src,
       type: VIDEO_EXTENSIONS.includes(ext) ? "video" : "image",
+      ...(display === "scroll" ? { display: "scroll" as const } : {}),
     };
   });
 }

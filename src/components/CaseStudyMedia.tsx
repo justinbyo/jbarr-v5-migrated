@@ -14,6 +14,11 @@ export default function CaseStudyMedia({ media, alt }: CaseStudyMediaProps) {
     return <VideoPlayer src={media[0].src} alt={alt} />;
   }
 
+  // Single scroll image
+  if (media.length === 1 && media[0].display === "scroll") {
+    return <ScrollImage src={media[0].src} alt={alt} />;
+  }
+
   // Single image
   if (media.length === 1 && media[0].type === "image") {
     return <img src={media[0].src} alt={alt} />;
@@ -52,6 +57,63 @@ function VideoPlayer({ src, alt }: { src: string; alt: string }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     />
+  );
+}
+
+/* ── Scroll image (tall image pans upward) ──────────────── */
+
+const SCROLL_DURATION = 12000; // ms for one direction
+
+function ScrollImage({ src, alt }: { src: string; alt: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const rafRef = useRef<number>(0);
+  const startTimeRef = useRef<number>(0);
+
+  const animate = useCallback(() => {
+    const img = imgRef.current;
+    const container = containerRef.current;
+    if (!img || !container || !img.naturalHeight || !img.naturalWidth) {
+      rafRef.current = requestAnimationFrame(animate);
+      return;
+    }
+
+    const containerWidth = container.clientWidth;
+    const renderedHeight =
+      (img.naturalHeight / img.naturalWidth) * containerWidth;
+    const overflow = Math.max(0, renderedHeight - container.clientHeight);
+
+    if (!startTimeRef.current) startTimeRef.current = performance.now();
+    const elapsed = performance.now() - startTimeRef.current;
+
+    // Ping-pong: 0→1→0 over 2× duration, with ease-in-out
+    const cycle = (elapsed % (SCROLL_DURATION * 2)) / SCROLL_DURATION;
+    const linear = cycle <= 1 ? cycle : 2 - cycle;
+
+    // Ease-in-out with 10% dwell at each end
+    let progress: number;
+    if (linear <= 0.1) progress = 0;
+    else if (linear >= 0.9) progress = 1;
+    else progress = (linear - 0.1) / 0.8;
+
+    // Smooth ease-in-out
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    img.style.transform = `translateY(${-eased * overflow}px)`;
+    rafRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [animate]);
+
+  return (
+    <div ref={containerRef} className="case-study--scroll-container">
+      <img ref={imgRef} src={src} alt={alt} className="case-study--scroll-image" />
+    </div>
   );
 }
 

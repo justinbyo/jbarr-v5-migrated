@@ -7,7 +7,17 @@ export default function Header() {
         <h1>
           Product + Design <span>by Justin Barr Young</span>
         </h1>
-        <ThemeToggle />
+        <div className="nav-buttons">
+          <ThemeToggle />
+          <a
+            className="nav-button resume-link"
+            href="https://docs.google.com/document/d/1GYAtmDI-ciMgXkVksxFhqL3De6NcDGubUkDek7IPXjY/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Resume <span className="resume-arrow">&rarr;</span>
+          </a>
+        </div>
       </section>
     </header>
   );

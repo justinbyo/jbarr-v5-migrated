@@ -22,11 +22,7 @@ export default function ThemeToggle() {
       className="theme-toggle"
       aria-label="Toggle dark mode"
     >
-      {dark ? (
-        <span style={{ display: "inline-block", transform: "rotate(45deg)" }}>☽</span>
-      ) : (
-        "☼"
-      )}
+      {dark ? "🌘" : "🌖"} {dark ? "Dark" : "Light"}
     </button>
   );
 }

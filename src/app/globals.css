@@ -310,6 +310,7 @@ section.case-studies {
   height: auto;
   display: block;
   margin-bottom: 0;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 0.25);
 }
 
 .case-study--media video {
@@ -397,6 +398,7 @@ section.case-studies {
   right: var(--margin-small);
   bottom: 0;
   overflow: hidden;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 0.25);
 }
 
 .case-study--scroll-image {

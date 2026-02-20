@@ -8,6 +8,23 @@ interface CaseStudyMediaProps {
   alt: string;
 }
 
+const MOBILE_BREAKPOINT = "(max-width: 767px)";
+
+/** Match a media query, updating on changes. SSR-safe (defaults to false). */
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    setMatches(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [query]);
+
+  return matches;
+}
+
 export default function CaseStudyMedia({ media, alt }: CaseStudyMediaProps) {
   // Single video
   if (media.length === 1 && media[0].type === "video") {
@@ -21,7 +38,7 @@ export default function CaseStudyMedia({ media, alt }: CaseStudyMediaProps) {
 
   // Single image
   if (media.length === 1 && media[0].type === "image") {
-    return <img src={media[0].src} alt={alt} />;
+    return <img src={media[0].src} alt={alt} loading="lazy" />;
   }
 
   // Multiple media items → carousel
@@ -65,15 +82,49 @@ function VideoPlayer({ src, alt }: { src: string; alt: string }) {
 const SCROLL_DURATION = 12000; // ms for one direction
 
 function ScrollImage({ src, alt }: { src: string; alt: string }) {
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const rafRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
+  const isVisibleRef = useRef(false);
+  const wasPausedRef = useRef(false);
+
+  // Track visibility with IntersectionObserver
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisibleRef.current;
+        isVisibleRef.current = entry.isIntersecting;
+
+        // Reset start time when becoming visible again so animation
+        // resumes smoothly instead of jumping
+        if (!wasVisible && entry.isIntersecting && wasPausedRef.current) {
+          startTimeRef.current = 0;
+          wasPausedRef.current = false;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const animate = useCallback(() => {
     const img = imgRef.current;
     const container = containerRef.current;
     if (!img || !container || !img.naturalHeight || !img.naturalWidth) {
+      rafRef.current = requestAnimationFrame(animate);
+      return;
+    }
+
+    // Skip animation work when off-screen but keep the loop alive
+    if (!isVisibleRef.current) {
+      wasPausedRef.current = true;
       rafRef.current = requestAnimationFrame(animate);
       return;
     }
@@ -97,22 +148,38 @@ function ScrollImage({ src, alt }: { src: string; alt: string }) {
     else progress = (linear - 0.1) / 0.8;
 
     // Smooth ease-in-out
-    const eased = progress < 0.5
-      ? 2 * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    const eased =
+      progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
     img.style.transform = `translateY(${-eased * overflow}px)`;
     rafRef.current = requestAnimationFrame(animate);
   }, []);
 
   useEffect(() => {
+    if (isMobile) {
+      cancelAnimationFrame(rafRef.current);
+      return;
+    }
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [animate]);
+  }, [animate, isMobile]);
+
+  // On mobile, render a simple lazy-loaded image instead of the scroll animation
+  if (isMobile) {
+    return <img src={src} alt={alt} loading="lazy" />;
+  }
 
   return (
     <div ref={containerRef} className="case-study--scroll-container">
-      <img ref={imgRef} src={src} alt={alt} className="case-study--scroll-image" />
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        className="case-study--scroll-image"
+        loading="lazy"
+      />
     </div>
   );
 }
@@ -159,7 +226,7 @@ function Carousel({ media, alt }: { media: MediaItem[]; alt: string }) {
             data-active={i === activeIndex ? "true" : "false"}
           >
             {item.type === "image" ? (
-              <img src={item.src} alt={`${alt} – ${i + 1}`} />
+              <img src={item.src} alt={`${alt} – ${i + 1}`} loading="lazy" />
             ) : (
               <video
                 src={item.src}

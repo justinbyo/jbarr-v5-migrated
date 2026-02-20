@@ -4,7 +4,8 @@ employer: "GitHub (Microsoft)"
 order: 1
 visible: true
 media:
-  - /images/case-studies/global-navigation.mp4
+  - /images/case-studies/github-global-navigation.png
+  - /images/case-studies/github-global-navigation-closeup.png
 ---
 
 GitHub's navigation couldn't scale—users got lost in the hierarchy, core features were buried in menus, and the UI wasn't accessible. I led a cross-functional team of 20+ to redesign the navigation from the ground up, introducing a two-level system (sidebar + tabs) that reflects GitHub's information architecture and meets accessibility standards.

@@ -4,7 +4,7 @@ employer: "Signal Sciences (acquired by Fastly for $775M)"
 order: 2
 visible: true
 media:
-  - src: /images/case-studies/sigci-events.png
+  - src: /images/case-studies/signal-sciences-events.png
     display: scroll
 ---
 

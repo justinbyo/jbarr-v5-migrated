@@ -3,7 +3,8 @@ title: "63% Growth in Signups, 142→16 Second Completion Time"
 employer: "GitHub (Microsoft)"
 order: 6
 visible: true
-image: ""
+media: 
+    - /images/case-studies/github-sign-up.png
 ---
 
 GitHub's terminal-style signup took 142 seconds and wasn't accessible. With Copilot Free launching and competitive pressure mounting, I led the New User Experience team through systematic optimization: redesigned the UI, added globally-compliant email opt-in, integrated Google/Apple social login, and reduced friction to near-zero clicks for VS Code users.

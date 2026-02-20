@@ -4,7 +4,8 @@ employer: "GitHub (Microsoft)"
 order: 7
 visible: true
 media:
-  - /images/case-studies/home-dashboard-video.mp4
+  - src: /images/case-studies/dashboard.png
+    display: scroll
 ---
 
 GitHub's home dashboard had a reputation problem—2M daily users called it "useless" and relied on browser bookmarks instead. I redesigned it with separate "My Work" and "Feed" tabs, added Copilot agent orchestration, and shipped iteratively (5% preview → community feedback → 100% at GitHub Universe).

@@ -3,7 +3,9 @@ title: "Scaling Dashboard UX for Enterprise Growth"
 employer: "Signal Sciences (acquired by Fastly for $775M)"
 order: 3
 visible: true
-image: ""
+media:
+  - src: /images/case-studies/signal-sciences-dashboard.png
+    display: scroll
 ---
 
 As Signal Sciences scaled from 30 customers to 500+, the navigation became unusable for enterprise teams managing 10+ sites. I redesigned the dashboard with a two-level navigation system that exposed the corp/site hierarchy, established analytics tracking standards, and identified "power users" for targeted research.

@@ -26,11 +26,8 @@ export default function About() {
           workflows in the core product for 150 million users.
           <br />
           <br />
-          Before that, I was an early product and design leader at{" "}
-          <a href="http://signalsciences.com" title="Signal Sciences homepage">
-            Signal Sciences
-          </a>
-          , a cybersecurity startup acquired by{" "}
+          Before that, I was an early product and design leader at Signal Sciences,
+          a cybersecurity startup acquired by{" "}
           <a href="https://fastly.com">Fastly</a> in 2020 for $825 million. I led development of the UI dashboard, designed identity and access
           management features, guided privacy and data governance initiatives,
           and created a new self-service tier and sales motion as we scaled our enterprise customer base from dozens to hundreds.

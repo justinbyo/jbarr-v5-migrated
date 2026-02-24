@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import type { MediaItem } from "@/lib/case-studies";
+import { assetPath } from "@/lib/assetPath";
 
 interface CaseStudyMediaProps {
   media: MediaItem[];
@@ -191,17 +192,17 @@ function useMediaQuery(query: string): boolean {
 export default function CaseStudyMedia({ media, alt }: CaseStudyMediaProps) {
   // Single video
   if (media.length === 1 && media[0].type === "video") {
-    return <VideoPlayer src={media[0].src} alt={alt} />;
+    return <VideoPlayer src={assetPath(media[0].src)} alt={alt} />;
   }
 
   // Single scroll image
   if (media.length === 1 && media[0].display === "scroll") {
-    return <ScrollImage src={media[0].src} alt={alt} />;
+    return <ScrollImage src={assetPath(media[0].src)} alt={alt} />;
   }
 
   // Single image
   if (media.length === 1 && media[0].type === "image") {
-    return <img src={media[0].src} alt={alt} loading="lazy" />;
+    return <img src={assetPath(media[0].src)} alt={alt} loading="lazy" />;
   }
 
   // Multiple media items → carousel
@@ -406,10 +407,10 @@ function Carousel({ media, alt }: { media: MediaItem[]; alt: string }) {
             data-active={i === activeIndex ? "true" : "false"}
           >
             {item.type === "image" ? (
-              <img src={item.src} alt={`${alt} – ${i + 1}`} loading="lazy" />
+              <img src={assetPath(item.src)} alt={`${alt} – ${i + 1}`} loading="lazy" />
             ) : (
               <video
-                src={item.src}
+                src={assetPath(item.src)}
                 muted
                 playsInline
                 loop

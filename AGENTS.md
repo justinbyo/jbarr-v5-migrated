@@ -93,3 +93,14 @@ After re-encoding, the frontmatter paths already point to the correct locations 
 ## Deployment
 
 The `gh-pages` branch is the deploy branch. `public/` contains `.nojekyll` and a `CNAME` file. Legacy files (`index.html`, `main.css`, `docs/`, `images/`) exist at the repo root from a previous version of the site.
+
+### GitHub Pages subpath / basePath
+
+The site deploys as a **project site** at `https://justinbyo.github.io/jbarr-v5-migrated/` (not at the root). To ensure static assets resolve correctly under this subpath:
+
+- `NEXT_PUBLIC_BASE_PATH=/jbarr-v5-migrated` is set in `.github/workflows/deploy.yml` during the build step.
+- `next.config.ts` reads this env var and sets both `basePath` and `assetPrefix`.
+- The helper `src/lib/assetPath.ts` prefixes root-relative asset paths (`/images/…`) with the base path. It is used in `CaseStudyMedia.tsx` and `layout.tsx`.
+- **Local dev** (`npm run dev`) leaves `NEXT_PUBLIC_BASE_PATH` unset, so the helper is a no-op and assets resolve from `/` as expected.
+
+If the repo is renamed or moved to a different subpath, update `NEXT_PUBLIC_BASE_PATH` in `.github/workflows/deploy.yml`.

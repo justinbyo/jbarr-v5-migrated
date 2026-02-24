@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { assetPath } from "@/lib/assetPath";
 
 export const metadata: Metadata = {
   title: "Justin Barr Young | Product Manager & Creative Technologist",
@@ -14,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href={assetPath("/images/favicon.ico")} />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Lato:wght@400;700;900&display=swap" />
         <script
           dangerouslySetInnerHTML={{

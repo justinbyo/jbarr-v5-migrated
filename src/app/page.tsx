@@ -17,7 +17,8 @@ export default function Home() {
       </main>
       <CaseStudies />
       {/* <Footer /> */}
-      <Footnotes />
+      {/* <Footnotes /> */}
+      <CTA />
     </>
   );
 }

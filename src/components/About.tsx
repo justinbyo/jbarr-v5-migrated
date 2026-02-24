@@ -27,9 +27,7 @@ export default function About() {
           <br />
           <br />
           Before that, I was an early product and design leader at{" "}
-          <a href="http://signalsciences.com" title="Signal Sciences homepage">
-            Signal Sciences
-          </a>
+          Signal Sciences
           , a cybersecurity startup acquired by{" "}
           <a href="https://fastly.com">Fastly</a> in 2020 for $825 million. I led development of the UI dashboard, designed identity and access
           management features, guided privacy and data governance initiatives,

@@ -16,6 +16,7 @@ export default function Home() {
         <CTA />
       </main>
       <CaseStudies />
+      <p className="location-tagline">Made in sunny Los Angeles, where I work remotely 🌴</p>
       {/* <Footer /> */}
       {/* <Footnotes /> */}
       <CTA />

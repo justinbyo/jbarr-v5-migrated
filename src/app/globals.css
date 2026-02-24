@@ -225,6 +225,11 @@ section.case-studies {
   padding: var(--margin-medium);
 }
 
+.location-tagline {
+  text-align: center;
+  margin: 0;
+}
+
 .case-study {
   background-color: var(--case-study-bg);
   border: var(--border-x-small) solid var(--case-study-border);
@@ -266,7 +271,6 @@ section.case-studies {
   font-family: "Lato";
   font-size: 0.875rem;
   font-weight: 700;
-  text-transform: uppercase;
   margin-bottom: 1rem;
 }
 

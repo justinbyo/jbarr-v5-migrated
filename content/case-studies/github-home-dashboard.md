@@ -1,5 +1,5 @@
 ---
-title: "Fixing GitHub's \"Useless\" Homepage for 2M Daily Users"
+title: "Improving GitHub's Homepage for 2M Daily Users"
 employer: "GitHub"
 order: 5
 visible: true

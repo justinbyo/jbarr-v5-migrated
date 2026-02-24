@@ -35,7 +35,7 @@ export default function About() {
           <br />
           I&rsquo;ve worked across product, design, and engineering at a variety
           of companies such as <a href="https://godaddy.com">GoDaddy</a> and{" "}
-          <a href="https://carbonfive.com">Carbon Five</a>. I&rsquo;ve also
+          Carbon Five (now{" "}<a href="https://westmonroe.com/">West Monroe</a>). I&rsquo;ve also
           written, mentored, and presented on product design, rapid
           prototyping, and growing careers in tech.
         </p>

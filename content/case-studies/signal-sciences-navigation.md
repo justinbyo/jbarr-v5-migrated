@@ -14,6 +14,5 @@ As Signal Sciences scaled to hundreds of enterprise customers ahead of its $825M
 - Redesigned dashboard and navigation for large, complex enterprise instances
 - Added roles, permissions, authentication methods, and IDP integrations
 - Reduced support tickets by 12% and improved sales conversion
-- Increased marketing and sales conversion rates through targeted featureset improvements and experiments
 
 

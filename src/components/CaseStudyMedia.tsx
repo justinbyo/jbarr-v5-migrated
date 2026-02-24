@@ -9,6 +9,169 @@ interface CaseStudyMediaProps {
 }
 
 const MOBILE_BREAKPOINT = "(max-width: 767px)";
+const SCROLL_CENTER_PROXIMITY_RATIO = 0.35;
+const SCROLL_SWITCH_HYSTERESIS_PX = 80;
+
+type ScrollImageInstance = {
+  id: number;
+  getElement: () => HTMLDivElement | null;
+  setActive: (active: boolean) => void;
+  inView: boolean;
+};
+
+const scrollImageInstances = new Map<number, ScrollImageInstance>();
+let nextScrollImageId = 1;
+let activeScrollImageId: number | null = null;
+let hasGlobalScrollListeners = false;
+let scrollEvaluationScheduled = false;
+
+function getScrollImageCenterDistance(instance: ScrollImageInstance): number {
+  const element = instance.getElement();
+  if (!element) return Number.POSITIVE_INFINITY;
+
+  const rect = element.getBoundingClientRect();
+  const centerY = rect.top + rect.height / 2;
+  return Math.abs(centerY - window.innerHeight / 2);
+}
+
+function isScrollImageInViewport(instance: ScrollImageInstance): boolean {
+  const element = instance.getElement();
+  if (!element) return false;
+
+  const rect = element.getBoundingClientRect();
+  return rect.bottom > 0 && rect.top < window.innerHeight;
+}
+
+function applyActiveScrollImage(nextId: number | null) {
+  if (activeScrollImageId === nextId) return;
+
+  if (activeScrollImageId !== null) {
+    const previous = scrollImageInstances.get(activeScrollImageId);
+    previous?.setActive(false);
+  }
+
+  activeScrollImageId = nextId;
+
+  if (activeScrollImageId !== null) {
+    const next = scrollImageInstances.get(activeScrollImageId);
+    next?.setActive(true);
+  }
+}
+
+function evaluateActiveScrollImage() {
+  if (typeof window === "undefined") return;
+
+  const viewportCenterThreshold =
+    window.innerHeight * SCROLL_CENTER_PROXIMITY_RATIO;
+
+  let bestId: number | null = null;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (const instance of scrollImageInstances.values()) {
+    if (!instance.inView || !isScrollImageInViewport(instance)) continue;
+    const distance = getScrollImageCenterDistance(instance);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestId = instance.id;
+    }
+  }
+
+  if (bestDistance > viewportCenterThreshold) {
+    applyActiveScrollImage(null);
+    return;
+  }
+
+  if (activeScrollImageId !== null && bestId !== activeScrollImageId) {
+    const activeInstance = scrollImageInstances.get(activeScrollImageId);
+    if (activeInstance && activeInstance.inView && isScrollImageInViewport(activeInstance)) {
+      const activeDistance = getScrollImageCenterDistance(activeInstance);
+      if (bestDistance + SCROLL_SWITCH_HYSTERESIS_PX >= activeDistance) {
+        applyActiveScrollImage(activeScrollImageId);
+        return;
+      }
+    }
+  }
+
+  applyActiveScrollImage(bestId);
+}
+
+function scheduleScrollImageEvaluation() {
+  if (typeof window === "undefined") return;
+  if (scrollEvaluationScheduled) return;
+
+  scrollEvaluationScheduled = true;
+  window.requestAnimationFrame(() => {
+    scrollEvaluationScheduled = false;
+    evaluateActiveScrollImage();
+  });
+}
+
+function handleScrollImageViewportChange() {
+  scheduleScrollImageEvaluation();
+}
+
+function attachScrollImageListeners() {
+  if (typeof window === "undefined") return;
+  if (hasGlobalScrollListeners) return;
+
+  window.addEventListener("scroll", handleScrollImageViewportChange, {
+    passive: true,
+  });
+  window.addEventListener("resize", handleScrollImageViewportChange);
+  hasGlobalScrollListeners = true;
+}
+
+function detachScrollImageListeners() {
+  if (typeof window === "undefined") return;
+  if (!hasGlobalScrollListeners) return;
+
+  window.removeEventListener("scroll", handleScrollImageViewportChange);
+  window.removeEventListener("resize", handleScrollImageViewportChange);
+  hasGlobalScrollListeners = false;
+}
+
+function registerScrollImageInstance(
+  getElement: () => HTMLDivElement | null,
+  setActive: (active: boolean) => void
+) {
+  const id = nextScrollImageId++;
+  scrollImageInstances.set(id, {
+    id,
+    getElement,
+    setActive,
+    inView: false,
+  });
+
+  attachScrollImageListeners();
+  scheduleScrollImageEvaluation();
+  return id;
+}
+
+function unregisterScrollImageInstance(id: number) {
+  const wasActive = activeScrollImageId === id;
+  scrollImageInstances.delete(id);
+
+  if (wasActive) {
+    activeScrollImageId = null;
+  }
+
+  if (scrollImageInstances.size === 0) {
+    detachScrollImageListeners();
+    return;
+  }
+
+  scheduleScrollImageEvaluation();
+}
+
+function setScrollImageInstanceInView(id: number, inView: boolean) {
+  const instance = scrollImageInstances.get(id);
+  if (!instance) return;
+
+  if (instance.inView !== inView) {
+    instance.inView = inView;
+    scheduleScrollImageEvaluation();
+  }
+}
 
 /** Match a media query, updating on changes. SSR-safe (defaults to false). */
 function useMediaQuery(query: string): boolean {
@@ -85,46 +248,61 @@ function ScrollImage({ src, alt }: { src: string; alt: string }) {
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+  const instanceIdRef = useRef<number | null>(null);
   const rafRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
-  const isVisibleRef = useRef(false);
-  const wasPausedRef = useRef(false);
+  const [isActive, setIsActive] = useState(false);
 
-  // Track visibility with IntersectionObserver
+  // Register with shared coordinator (desktop only)
   useEffect(() => {
+    if (isMobile) {
+      if (instanceIdRef.current !== null) {
+        unregisterScrollImageInstance(instanceIdRef.current);
+        instanceIdRef.current = null;
+      }
+      setIsActive(false);
+      return;
+    }
+
+    const id = registerScrollImageInstance(() => containerRef.current, setIsActive);
+    instanceIdRef.current = id;
+
+    return () => {
+      unregisterScrollImageInstance(id);
+      instanceIdRef.current = null;
+      setIsActive(false);
+    };
+  }, [isMobile]);
+
+  // Track visibility and report to coordinator
+  useEffect(() => {
+    if (isMobile) return;
+
     const container = containerRef.current;
     if (!container) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const wasVisible = isVisibleRef.current;
-        isVisibleRef.current = entry.isIntersecting;
-
-        // Reset start time when becoming visible again so animation
-        // resumes smoothly instead of jumping
-        if (!wasVisible && entry.isIntersecting && wasPausedRef.current) {
-          startTimeRef.current = 0;
-          wasPausedRef.current = false;
+        if (instanceIdRef.current !== null) {
+          setScrollImageInstanceInView(instanceIdRef.current, entry.isIntersecting);
         }
       },
       { threshold: 0.1 }
     );
 
     observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      if (instanceIdRef.current !== null) {
+        setScrollImageInstanceInView(instanceIdRef.current, false);
+      }
+    };
+  }, [isMobile]);
 
   const animate = useCallback(() => {
     const img = imgRef.current;
     const container = containerRef.current;
     if (!img || !container || !img.naturalHeight || !img.naturalWidth) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
-    }
-
-    // Skip animation work when off-screen but keep the loop alive
-    if (!isVisibleRef.current) {
-      wasPausedRef.current = true;
       rafRef.current = requestAnimationFrame(animate);
       return;
     }
@@ -158,13 +336,15 @@ function ScrollImage({ src, alt }: { src: string; alt: string }) {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
+    if (isMobile || !isActive) {
       cancelAnimationFrame(rafRef.current);
+      startTimeRef.current = 0;
       return;
     }
+
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [animate, isMobile]);
+  }, [animate, isActive, isMobile]);
 
   // On mobile, render a simple lazy-loaded image instead of the scroll animation
   if (isMobile) {

@@ -1,8 +1,8 @@
 ---
 title: "Industry-First Attack Visualization for Security Teams"
-employer: "Signal Sciences (acquired by Fastly for $775M)"
-order: 2
-visible: true
+employer: "Signal Sciences (acquired by Fastly)"
+order: 8
+visible: false
 media:
   - src: /images/case-studies/signal-sciences-events.png
     display: scroll

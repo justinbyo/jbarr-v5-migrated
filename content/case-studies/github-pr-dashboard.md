@@ -1,7 +1,7 @@
 ---
 title: "Competitive Response to Graphite and Linear"
 employer: "GitHub (Microsoft)"
-order: 8
+order: 9
 visible: false
 image: ""
 ---

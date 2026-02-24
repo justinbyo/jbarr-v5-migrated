@@ -8,7 +8,7 @@ media:
     display: scroll
 ---
 
-As Signal Sciences scaled from 30 to 500+ customers ahead of its $825M acquisition, I owned the platform's core functionality and evolved it to meet enterprise needs.
+As Signal Sciences scaled to hundreds of enterprise customers ahead of its $825M acquisition, I owned the platform's core functionality and evolved it to meet enterprise needs.
 
 - Prepared platform for 40,000 apps monitoring 2 trillion requests/month
 - Redesigned dashboard and navigation for large, complex enterprise instances

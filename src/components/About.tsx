@@ -15,7 +15,7 @@ export default function About() {
 
       <section className="about">
         <p>
-          I specialize in turning complex domains (like cybersecurity, dev tools, and web
+          I specialize in turning complex domains (like cybersecurity, developer tools, and web
           hosting) into user-friendly, strategically-impactful, and scalable experiences
           for startups and enterprise companies alike.
           <br />

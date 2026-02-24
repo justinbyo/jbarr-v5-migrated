@@ -41,8 +41,6 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /jbarr-v5-migrated
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

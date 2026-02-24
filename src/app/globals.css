@@ -235,6 +235,10 @@ section.case-studies {
   position:relative;
 }
 
+.case-study:last-of-type {
+  margin-bottom: 0;
+}
+
 .case-study::after{
   position: absolute;
   top:var(--border-big);
